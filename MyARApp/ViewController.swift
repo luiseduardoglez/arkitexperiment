@@ -14,6 +14,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
     
     @IBOutlet weak var sceneView: ARSCNView!
+    @IBOutlet weak var sessionInfoView: UIVisualEffectView!
+    @IBOutlet weak var sessionInfoLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,18 +96,67 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         plane.height = CGFloat(planeAnchor.extent.z)
     }
     
+    //MARK: - ARSessionDelegate
+    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+        guard let frame = session.currentFrame else { return }
+        updateSessionLabel(for: frame, trackingState: frame.camera.trackingState)
+    }
+    
+    func session(_ session: ARSession, didRemove anchors: [ARAnchor]) {
+        guard let frame = session.currentFrame else { return }
+        updateSessionLabel(for: frame, trackingState: frame.camera.trackingState)
+    }
+    
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+        updateSessionLabel(for: session.currentFrame!, trackingState: camera.trackingState)
+    }
+    
+    //MARK: - ARSessionObserver
+    
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
-        
+        sessionInfoLabel.text = "Session failed: \(error.localizedDescription)"
+        resetTracking()
     }
     
     func sessionWasInterrupted(_ session: ARSession) {
         // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
+        sessionInfoLabel.text = "Session was interrupted"
     }
     
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
+        sessionInfoLabel.text = "Session interruption ended"
+        resetTracking()
+    }
+    
+    // MARK: - Private methods
+    private func updateSessionLabel(for frame: ARFrame, trackingState: ARCamera.TrackingState) {
+        let message: String
         
+        switch trackingState {
+        case .normal where frame.anchors.isEmpty:
+            // No planes detected.
+            message = "Move the device around to detect horizontal surfaces"
+        case .notAvailable:
+            message = "Tracking unavailable"
+        case .limited(.excessiveMotion):
+            message = "Tracking limited - Move the device more slowly"
+        case .limited(.insufficientFeatures):
+            message = "Tracking limited - Point the device at an area with visible surface detail, or improve lighting conditions."
+        case .limited(.initializing):
+            message = "Initializing AR session"
+        default:
+            message = ""
+        }
+        
+        sessionInfoLabel.text = message
+        sessionInfoView.isHidden = message.isEmpty
+    }
+    
+    private func resetTracking() {
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = .horizontal
+        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
 }

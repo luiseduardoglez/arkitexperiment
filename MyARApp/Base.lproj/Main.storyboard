@@ -20,18 +20,48 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RAn-dd-Hvy">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </arscnView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fuk-0P-YmO">
+                                <rect key="frame" x="15" y="596" width="222" height="38"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gPM-T5-2wF">
+                                    <rect key="frame" x="0.0" y="0.0" width="222" height="38"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Hd-ww-skZ">
+                                            <rect key="frame" x="8" y="8" width="200" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="22" id="3Vg-CU-W0n"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="vGR-y8-G6U"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="8Hd-ww-skZ" secondAttribute="trailing" constant="14" id="5ho-DD-9vS"/>
+                                        <constraint firstAttribute="bottom" secondItem="8Hd-ww-skZ" secondAttribute="bottom" constant="8" id="8xp-MP-WeC"/>
+                                        <constraint firstItem="8Hd-ww-skZ" firstAttribute="leading" secondItem="gPM-T5-2wF" secondAttribute="leading" constant="8" id="G1F-vH-Uq0"/>
+                                        <constraint firstItem="8Hd-ww-skZ" firstAttribute="top" secondItem="gPM-T5-2wF" secondAttribute="top" constant="8" id="b1H-hu-1uj"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="vfd-Mi-zE0" firstAttribute="bottom" secondItem="RAn-dd-Hvy" secondAttribute="bottom" id="0Sd-iZ-WCz"/>
                             <constraint firstItem="RAn-dd-Hvy" firstAttribute="leading" secondItem="vfd-Mi-zE0" secondAttribute="leading" id="0hx-cm-Pnq"/>
+                            <constraint firstItem="vfd-Mi-zE0" firstAttribute="bottom" secondItem="Fuk-0P-YmO" secondAttribute="bottom" constant="33" id="3AE-Bu-m5F"/>
                             <constraint firstItem="RAn-dd-Hvy" firstAttribute="top" secondItem="vfd-Mi-zE0" secondAttribute="top" id="dDw-Ip-nyE"/>
                             <constraint firstItem="vfd-Mi-zE0" firstAttribute="trailing" secondItem="RAn-dd-Hvy" secondAttribute="trailing" id="dc9-lf-1Ns"/>
+                            <constraint firstItem="Fuk-0P-YmO" firstAttribute="leading" secondItem="vfd-Mi-zE0" secondAttribute="leading" constant="15" id="zmp-pd-ixy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vfd-Mi-zE0"/>
                     </view>
                     <connections>
                         <outlet property="sceneView" destination="RAn-dd-Hvy" id="0lx-2w-SVa"/>
+                        <outlet property="sessionInfoLabel" destination="8Hd-ww-skZ" id="vNt-3n-5eW"/>
+                        <outlet property="sessionInfoView" destination="Fuk-0P-YmO" id="Rzd-oy-FHC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
